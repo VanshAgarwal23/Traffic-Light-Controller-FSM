@@ -1,0 +1,407 @@
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2020  Claire Xenia Wolf <claire@yosyshq.com>         |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.33 (git sha1 2584903a060)
+
+
+-- Running command `read_verilog rtl/traffic_fsm.v rtl/traffic_timer.v rtl/traffic_light_controller.v; hierarchy -top traffic_light_controller; proc; opt; check; stat; write_verilog -noattr synthesis/traffic_light_controller_synth.v' --
+
+1. Executing Verilog-2005 frontend: rtl/traffic_fsm.v
+Parsing Verilog input from `rtl/traffic_fsm.v' to AST representation.
+Generating RTLIL representation for module `\traffic_fsm'.
+Successfully finished Verilog frontend.
+
+2. Executing Verilog-2005 frontend: rtl/traffic_timer.v
+Parsing Verilog input from `rtl/traffic_timer.v' to AST representation.
+Generating RTLIL representation for module `\traffic_timer'.
+Successfully finished Verilog frontend.
+
+3. Executing Verilog-2005 frontend: rtl/traffic_light_controller.v
+Parsing Verilog input from `rtl/traffic_light_controller.v' to AST representation.
+Generating RTLIL representation for module `\traffic_light_controller'.
+Successfully finished Verilog frontend.
+
+4. Executing HIERARCHY pass (managing design hierarchy).
+
+4.1. Analyzing design hierarchy..
+Top module:  \traffic_light_controller
+Used module:     \traffic_timer
+Used module:     \traffic_fsm
+Parameter \WIDTH = 8
+
+4.2. Executing AST frontend in derive mode using pre-parsed AST for module `\traffic_timer'.
+Parameter \WIDTH = 8
+Generating RTLIL representation for module `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000'.
+
+4.3. Analyzing design hierarchy..
+Top module:  \traffic_light_controller
+Used module:     $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000
+Used module:     \traffic_fsm
+
+4.4. Analyzing design hierarchy..
+Top module:  \traffic_light_controller
+Used module:     $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000
+Used module:     \traffic_fsm
+Removing unused module `\traffic_timer'.
+Removed 1 unused modules.
+
+5. Executing PROC pass (convert processes to netlists).
+
+5.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+5.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Marked 1 switch rules as full_case in process $proc$rtl/traffic_light_controller.v:50$10 in module traffic_light_controller.
+Marked 2 switch rules as full_case in process $proc$rtl/traffic_timer.v:30$15 in module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.
+Marked 1 switch rules as full_case in process $proc$rtl/traffic_fsm.v:94$3 in module traffic_fsm.
+Marked 7 switch rules as full_case in process $proc$rtl/traffic_fsm.v:45$2 in module traffic_fsm.
+Marked 1 switch rules as full_case in process $proc$rtl/traffic_fsm.v:35$1 in module traffic_fsm.
+Removed a total of 0 dead cases.
+
+5.3. Executing PROC_PRUNE pass (remove redundant assignments in processes).
+Removed 2 redundant assignments.
+Promoted 8 assignments to connections.
+
+5.4. Executing PROC_INIT pass (extract init attributes).
+
+5.5. Executing PROC_ARST pass (detect async resets in processes).
+
+5.6. Executing PROC_ROM pass (convert switches to ROMs).
+Converted 0 switches.
+<suppressed ~12 debug messages>
+
+5.7. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `\traffic_light_controller.$proc$rtl/traffic_light_controller.v:50$10'.
+     1/1: $1\timer_limit[7:0]
+Creating decoders for process `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.$proc$rtl/traffic_timer.v:30$15'.
+     1/1: $0\counter[7:0]
+Creating decoders for process `\traffic_fsm.$proc$rtl/traffic_fsm.v:94$3'.
+     1/6: $1\EW_RED[0:0]
+     2/6: $1\NS_GREEN[0:0]
+     3/6: $1\EW_GREEN[0:0]
+     4/6: $1\EW_YELLOW[0:0]
+     5/6: $1\NS_YELLOW[0:0]
+     6/6: $1\NS_RED[0:0]
+Creating decoders for process `\traffic_fsm.$proc$rtl/traffic_fsm.v:45$2'.
+     1/7: $7\next_state[2:0]
+     2/7: $6\next_state[2:0]
+     3/7: $5\next_state[2:0]
+     4/7: $4\next_state[2:0]
+     5/7: $3\next_state[2:0]
+     6/7: $2\next_state[2:0]
+     7/7: $1\next_state[2:0]
+Creating decoders for process `\traffic_fsm.$proc$rtl/traffic_fsm.v:35$1'.
+     1/1: $0\current_state[2:0]
+
+5.8. Executing PROC_DLATCH pass (convert process syncs to latches).
+No latch inferred for signal `\traffic_light_controller.\timer_limit' from process `\traffic_light_controller.$proc$rtl/traffic_light_controller.v:50$10'.
+No latch inferred for signal `\traffic_fsm.\NS_RED' from process `\traffic_fsm.$proc$rtl/traffic_fsm.v:94$3'.
+No latch inferred for signal `\traffic_fsm.\NS_YELLOW' from process `\traffic_fsm.$proc$rtl/traffic_fsm.v:94$3'.
+No latch inferred for signal `\traffic_fsm.\NS_GREEN' from process `\traffic_fsm.$proc$rtl/traffic_fsm.v:94$3'.
+No latch inferred for signal `\traffic_fsm.\EW_RED' from process `\traffic_fsm.$proc$rtl/traffic_fsm.v:94$3'.
+No latch inferred for signal `\traffic_fsm.\EW_YELLOW' from process `\traffic_fsm.$proc$rtl/traffic_fsm.v:94$3'.
+No latch inferred for signal `\traffic_fsm.\EW_GREEN' from process `\traffic_fsm.$proc$rtl/traffic_fsm.v:94$3'.
+No latch inferred for signal `\traffic_fsm.\next_state' from process `\traffic_fsm.$proc$rtl/traffic_fsm.v:45$2'.
+
+5.9. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.\counter' using process `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.$proc$rtl/traffic_timer.v:30$15'.
+  created $dff cell `$procdff$129' with positive edge clock.
+Creating register for signal `\traffic_fsm.\current_state' using process `\traffic_fsm.$proc$rtl/traffic_fsm.v:35$1'.
+  created $dff cell `$procdff$130' with positive edge clock.
+
+5.10. Executing PROC_MEMWR pass (convert process memory writes to cells).
+
+5.11. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 1 empty switch in `\traffic_light_controller.$proc$rtl/traffic_light_controller.v:50$10'.
+Removing empty process `traffic_light_controller.$proc$rtl/traffic_light_controller.v:50$10'.
+Found and cleaned up 2 empty switches in `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.$proc$rtl/traffic_timer.v:30$15'.
+Removing empty process `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.$proc$rtl/traffic_timer.v:30$15'.
+Found and cleaned up 1 empty switch in `\traffic_fsm.$proc$rtl/traffic_fsm.v:94$3'.
+Removing empty process `traffic_fsm.$proc$rtl/traffic_fsm.v:94$3'.
+Found and cleaned up 7 empty switches in `\traffic_fsm.$proc$rtl/traffic_fsm.v:45$2'.
+Removing empty process `traffic_fsm.$proc$rtl/traffic_fsm.v:45$2'.
+Found and cleaned up 1 empty switch in `\traffic_fsm.$proc$rtl/traffic_fsm.v:35$1'.
+Removing empty process `traffic_fsm.$proc$rtl/traffic_fsm.v:35$1'.
+Cleaned up 12 empty switches.
+
+5.12. Executing OPT_EXPR pass (perform const folding).
+Optimizing module traffic_light_controller.
+<suppressed ~1 debug messages>
+Optimizing module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.
+<suppressed ~1 debug messages>
+Optimizing module traffic_fsm.
+<suppressed ~4 debug messages>
+
+6. Executing OPT pass (performing simple optimizations).
+
+6.1. Executing OPT_EXPR pass (perform const folding).
+Optimizing module traffic_light_controller.
+Optimizing module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.
+Optimizing module traffic_fsm.
+
+6.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\traffic_light_controller'.
+Finding identical cells in module `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000'.
+Finding identical cells in module `\traffic_fsm'.
+<suppressed ~42 debug messages>
+Removed a total of 14 cells.
+
+6.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \traffic_light_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \traffic_fsm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+    dead port 2/2 on $mux $procmux$95.
+    dead port 2/2 on $mux $procmux$86.
+    dead port 2/2 on $mux $procmux$78.
+    dead port 2/2 on $mux $procmux$71.
+    dead port 2/2 on $mux $procmux$116.
+    dead port 2/2 on $mux $procmux$105.
+Removed 6 multiplexer ports.
+<suppressed ~9 debug messages>
+
+6.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \traffic_light_controller.
+    New ctrl vector for $pmux cell $procmux$19: { $auto$opt_reduce.cc:134:opt_pmux$134 $auto$opt_reduce.cc:134:opt_pmux$132 }
+  Optimizing cells in module \traffic_light_controller.
+  Optimizing cells in module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.
+  Optimizing cells in module \traffic_fsm.
+    New ctrl vector for $pmux cell $procmux$64: $auto$opt_reduce.cc:134:opt_pmux$136
+    New ctrl vector for $pmux cell $procmux$32: $auto$opt_reduce.cc:134:opt_pmux$138
+  Optimizing cells in module \traffic_fsm.
+Performed a total of 3 changes.
+
+6.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\traffic_light_controller'.
+Finding identical cells in module `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000'.
+Finding identical cells in module `\traffic_fsm'.
+Removed a total of 0 cells.
+
+6.6. Executing OPT_DFF pass (perform DFF optimizations).
+Adding SRST signal on $procdff$129 ($dff) from module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000 (D = $add$rtl/traffic_timer.v:41$16_Y, Q = \counter, rval = 8'00000000).
+Adding SRST signal on $procdff$130 ($dff) from module traffic_fsm (D = \next_state, Q = \current_state, rval = 3'000).
+
+6.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \traffic_light_controller..
+Finding unused cells or wires in module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000..
+Finding unused cells or wires in module \traffic_fsm..
+Removed 3 unused cells and 65 unused wires.
+<suppressed ~6 debug messages>
+
+6.8. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.
+Optimizing module traffic_fsm.
+Optimizing module traffic_light_controller.
+
+6.9. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.10. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \traffic_fsm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \traffic_light_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~8 debug messages>
+
+6.11. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.
+  Optimizing cells in module \traffic_fsm.
+  Optimizing cells in module \traffic_light_controller.
+Performed a total of 0 changes.
+
+6.12. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000'.
+Finding identical cells in module `\traffic_fsm'.
+Finding identical cells in module `\traffic_light_controller'.
+Removed a total of 0 cells.
+
+6.13. Executing OPT_DFF pass (perform DFF optimizations).
+Adding EN signal on $auto$ff.cc:266:slice$142 ($sdff) from module traffic_fsm (D = \next_state, Q = \current_state).
+
+6.14. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000..
+Finding unused cells or wires in module \traffic_fsm..
+Finding unused cells or wires in module \traffic_light_controller..
+
+6.15. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.
+Optimizing module traffic_fsm.
+Optimizing module traffic_light_controller.
+
+6.16. Rerunning OPT passes. (Maybe there is more to do..)
+
+6.17. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000..
+  Creating internal representation of mux trees.
+  No muxes found in this module.
+Running muxtree optimizer on module \traffic_fsm..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Running muxtree optimizer on module \traffic_light_controller..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+<suppressed ~8 debug messages>
+
+6.18. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.
+  Optimizing cells in module \traffic_fsm.
+  Optimizing cells in module \traffic_light_controller.
+Performed a total of 0 changes.
+
+6.19. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000'.
+Finding identical cells in module `\traffic_fsm'.
+Finding identical cells in module `\traffic_light_controller'.
+Removed a total of 0 cells.
+
+6.20. Executing OPT_DFF pass (perform DFF optimizations).
+
+6.21. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000..
+Finding unused cells or wires in module \traffic_fsm..
+Finding unused cells or wires in module \traffic_light_controller..
+
+6.22. Executing OPT_EXPR pass (perform const folding).
+Optimizing module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000.
+Optimizing module traffic_fsm.
+Optimizing module traffic_light_controller.
+
+6.23. Finished OPT passes. (There is nothing left to do.)
+
+7. Executing CHECK pass (checking for obvious problems).
+Checking module $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000...
+Checking module traffic_fsm...
+Checking module traffic_light_controller...
+Found and reported 0 problems.
+
+8. Printing statistics.
+
+=== $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000 ===
+
+   Number of wires:                 10
+   Number of wire bits:             38
+   Number of public wires:           5
+   Number of public wire bits:      19
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  7
+     $add                            1
+     $eq                             1
+     $logic_not                      1
+     $logic_or                       1
+     $reduce_or                      1
+     $sdff                           1
+     $sub                            1
+
+=== traffic_fsm ===
+
+   Number of wires:                 32
+   Number of wire bits:             48
+   Number of public wires:          11
+   Number of public wire bits:      15
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 29
+     $eq                             5
+     $logic_not                      1
+     $mux                           12
+     $ne                             6
+     $pmux                           1
+     $reduce_and                     1
+     $reduce_or                      2
+     $sdffe                          1
+
+=== traffic_light_controller ===
+
+   Number of wires:                 17
+   Number of wire bits:             26
+   Number of public wires:          11
+   Number of public wire bits:      20
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                  9
+     $eq                             3
+     $logic_not                      1
+     $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000      1
+     $pmux                           1
+     $reduce_or                      2
+     traffic_fsm                     1
+
+=== design hierarchy ===
+
+   traffic_light_controller          1
+     $paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000      1
+     traffic_fsm                     1
+
+   Number of wires:                 59
+   Number of wire bits:            112
+   Number of public wires:          27
+   Number of public wire bits:      54
+   Number of memories:               0
+   Number of memory bits:            0
+   Number of processes:              0
+   Number of cells:                 43
+     $add                            1
+     $eq                             9
+     $logic_not                      3
+     $logic_or                       1
+     $mux                           12
+     $ne                             6
+     $pmux                           2
+     $reduce_and                     1
+     $reduce_or                      5
+     $sdff                           1
+     $sdffe                          1
+     $sub                            1
+
+9. Executing Verilog backend.
+
+9.1. Executing BMUXMAP pass.
+
+9.2. Executing DEMUXMAP pass.
+Dumping module `$paramod\traffic_timer\WIDTH=s32'00000000000000000000000000001000'.
+Dumping module `\traffic_fsm'.
+Dumping module `\traffic_light_controller'.
+
+End of script. Logfile hash: c27fa59097, CPU: user 0.08s system 0.02s, MEM: 10.86 MB peak
+Yosys 0.33 (git sha1 2584903a060)
+Time spent: 22% 5x opt_expr (0 sec), 18% 4x opt_merge (0 sec), ...
