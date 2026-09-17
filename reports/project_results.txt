@@ -1,0 +1,262 @@
+TRAFFIC LIGHT CONTROLLER USING FSM
+FINAL PROJECT RESULTS REPORT
+=============================
+
+1. PROJECT OVERVIEW
+-------------------
+
+Project Title:
+Traffic Light Controller using FSM
+
+Design Type:
+Moore Finite State Machine
+
+Purpose:
+Control traffic signals for two intersecting roads using a
+clock-driven finite state machine and configurable timers.
+
+Traffic Directions:
+North/South (NS)
+East/West (EW)
+
+
+2. DESIGN ARCHITECTURE
+----------------------
+
+The design consists of three RTL modules:
+
+1. traffic_fsm.v
+   Implements the six-state finite state machine and generates
+   Moore-model traffic-light outputs.
+
+2. traffic_timer.v
+   Implements the configurable state-duration timer.
+
+3. traffic_light_controller.v
+   Integrates the FSM and timer into the complete controller.
+
+
+3. FSM ARCHITECTURE
+-------------------
+
+Number of FSM states:
+6
+
+State sequence:
+
+NS GREEN
+   ↓
+NS YELLOW
+   ↓
+ALL RED 1
+   ↓
+EW GREEN
+   ↓
+EW YELLOW
+   ↓
+ALL RED 2
+   ↓
+NS GREEN
+
+State encoding:
+
+NS GREEN  = 000
+NS YELLOW = 001
+ALL RED 1 = 010
+EW GREEN  = 011
+EW YELLOW = 100
+ALL RED 2 = 101
+
+
+4. CLOCK AND TIMING
+-------------------
+
+Clock period:
+10 ns
+
+Clock frequency:
+100 MHz
+
+State durations:
+
+NS GREEN   = 10 cycles = 100 ns
+NS YELLOW  =  3 cycles =  30 ns
+ALL RED 1  =  2 cycles =  20 ns
+EW GREEN   = 10 cycles = 100 ns
+EW YELLOW  =  3 cycles =  30 ns
+ALL RED 2  =  2 cycles =  20 ns
+
+Complete FSM cycle:
+300 ns
+
+
+5. FUNCTIONAL VERIFICATION
+--------------------------
+
+Verification tools:
+
+Icarus Verilog
+Verilator
+GTKWave
+
+The verification testbench checks:
+
+- Reset behavior
+- FSM state transitions
+- Traffic-light outputs
+- Timer operation
+- Complete FSM cycle
+- Reset during active operation
+- Mutual exclusion of NS and EW green signals
+- Green/yellow output conflicts
+- Unknown or high-impedance outputs
+- Repeated FSM cycles
+
+Final verification result:
+
+Functional verification : PASS
+Verilator lint           : PASS
+Verilator simulation     : PASS
+Failed tests             : 0
+
+
+6. WAVEFORM ANALYSIS
+--------------------
+
+Simulation waveform:
+
+sim/traffic_light_controller.vcd
+
+GTKWave configuration:
+
+sim/traffic_light_controller.gtkw
+
+Exported waveform analysis:
+
+docs/waveform_analysis.png
+
+Waveform analysis confirms:
+
+- Correct FSM state sequence
+- Correct state durations
+- Correct traffic-light output transitions
+- Correct timer operation
+- Mutually exclusive green signals
+- Periodic repetition of the FSM sequence
+
+
+7. SAFETY VERIFICATION
+----------------------
+
+The controller prevents simultaneous green signals for the
+two traffic directions.
+
+When NS GREEN is active:
+EW GREEN remains inactive.
+
+When EW GREEN is active:
+NS GREEN remains inactive.
+
+The controller also includes two ALL-RED states between the
+direction changes.
+
+These states provide an intermediate red interval before
+traffic flow is transferred to the opposite direction.
+
+
+8. RTL SYNTHESIS
+----------------
+
+Synthesis tool:
+Yosys 0.33
+
+Top-level module:
+traffic_light_controller
+
+Synthesis completed successfully.
+
+Generic synthesized design statistics:
+
+Number of wires       : 59
+Number of wire bits   : 112
+Number of public wires: 27
+Public wire bits      : 54
+Number of memories    : 0
+Number of processes   : 0
+Number of cells       : 43
+
+Synthesis artifacts:
+
+synthesis/traffic_light_controller_synth.v
+synthesis/synthesis_report.txt
+
+
+9. PROJECT ARTIFACTS
+--------------------
+
+RTL:
+
+rtl/traffic_fsm.v
+rtl/traffic_timer.v
+rtl/traffic_light_controller.v
+
+Testbench:
+
+tb/traffic_light_controller_tb.v
+
+Documentation:
+
+docs/FSM_Specification.md
+docs/state_diagram.dot
+docs/state_diagram.png
+docs/state_diagram.svg
+docs/waveform_analysis.png
+
+Simulation:
+
+sim/icarus_simulation.log
+sim/traffic_controller_tb.vvp
+sim/traffic_light_controller.vcd
+sim/traffic_light_controller.gtkw
+
+Reports:
+
+reports/timing_analysis.txt
+reports/verification_summary.txt
+reports/verilator_simulation.txt
+reports/project_results.txt
+
+Synthesis:
+
+synthesis/synthesis_report.txt
+synthesis/traffic_light_controller_synth.v
+
+
+10. FINAL RESULT
+----------------
+
+The Traffic Light Controller was designed using a six-state
+Moore FSM with a configurable timer.
+
+The design was simulated and verified using Icarus Verilog and
+Verilator, with waveform analysis performed using GTKWave.
+
+The generated waveform confirms the expected traffic-light
+sequence and timing behavior.
+
+Yosys synthesis completed successfully and generated a
+synthesized RTL representation and synthesis statistics.
+
+Overall project status:
+
+DESIGN             : COMPLETE
+FSM IMPLEMENTATION : COMPLETE
+SIMULATION         : COMPLETE
+WAVEFORM ANALYSIS  : COMPLETE
+TIMING ANALYSIS    : COMPLETE
+FUNCTIONAL TESTING : PASS
+VERILATOR CHECK    : PASS
+SYNTHESIS          : COMPLETE
+
+FINAL VERIFICATION:
+FAILED TESTS = 0

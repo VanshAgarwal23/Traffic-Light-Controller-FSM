@@ -1,0 +1,148 @@
+TRAFFIC LIGHT CONTROLLER USING FSM
+FUNCTIONAL VERIFICATION REPORT
+===============================
+
+1. VERIFICATION ENVIRONMENT
+----------------------------
+
+Design Under Test:
+traffic_light_controller
+
+Verification Testbench:
+tb/traffic_light_controller_tb.v
+
+Primary Simulation:
+Icarus Verilog
+
+Additional Verification:
+Verilator
+
+Waveform Viewer:
+GTKWave
+
+Clock:
+10 ns period
+100 MHz frequency
+
+
+2. VERIFICATION OBJECTIVES
+--------------------------
+
+The verification environment checks:
+
+1. Correct reset behavior.
+2. Correct FSM state transitions.
+3. Correct traffic-light outputs for every FSM state.
+4. Correct timer operation.
+5. Correct timing sequence.
+6. Mutual exclusion of NS and EW green signals.
+7. Absence of simultaneous green signals.
+8. Absence of simultaneous green and yellow signals
+   for the same direction.
+9. Absence of unknown or high-impedance traffic-light outputs.
+10. Correct return to NS GREEN after a complete FSM cycle.
+11. Correct operation after reset during an active EW GREEN state.
+12. Repeated operation over multiple complete FSM cycles.
+
+
+3. FSM STATES VERIFIED
+----------------------
+
+State 0 : NS GREEN
+State 1 : NS YELLOW
+State 2 : ALL RED 1
+State 3 : EW GREEN
+State 4 : EW YELLOW
+State 5 : ALL RED 2
+
+Expected sequence:
+
+NS GREEN → NS YELLOW → ALL RED 1
+→ EW GREEN → EW YELLOW → ALL RED 2
+→ NS GREEN
+
+
+4. OUTPUT SAFETY VERIFICATION
+-----------------------------
+
+NS GREEN and EW GREEN are mutually exclusive.
+
+During NS GREEN:
+NS GREEN = 1
+EW GREEN = 0
+
+During EW GREEN:
+EW GREEN = 1
+NS GREEN = 0
+
+During ALL-RED states:
+NS RED = 1
+EW RED = 1
+
+The verification testbench also checks that a direction does
+not have GREEN and YELLOW active simultaneously.
+
+
+5. TIMING VERIFICATION
+-----------------------
+
+Clock period: 10 ns
+
+NS GREEN   : 10 cycles = 100 ns
+NS YELLOW  :  3 cycles =  30 ns
+ALL RED 1  :  2 cycles =  20 ns
+EW GREEN   : 10 cycles = 100 ns
+EW YELLOW  :  3 cycles =  30 ns
+ALL RED 2  :  2 cycles =  20 ns
+
+Complete FSM cycle = 300 ns
+
+The timing sequence was verified using the generated GTKWave
+waveform.
+
+
+6. SIMULATION VERIFICATION
+--------------------------
+
+Icarus Verilog functional simulation completed without
+reported [FAIL] messages.
+
+Verilator lint verification completed successfully.
+
+Verilator simulation completed with:
+
+Failed = 0
+
+
+7. WAVEFORM VERIFICATION
+------------------------
+
+Generated waveform:
+
+sim/traffic_light_controller.vcd
+
+GTKWave configuration:
+
+sim/traffic_light_controller.gtkw
+
+Exported waveform analysis:
+
+docs/waveform_analysis.png
+
+The waveform confirms the expected FSM state sequence,
+traffic-light output transitions, timer operation, and
+mutual exclusion of the two green signals.
+
+
+8. FINAL VERIFICATION RESULT
+----------------------------
+
+Functional verification: PASS
+FSM transition verification: PASS
+Output verification: PASS
+Safety verification: PASS
+Timing verification: PASS
+Verilator verification: PASS
+Failure count: 0
+
+Overall functional verification result: PASS
