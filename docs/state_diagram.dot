@@ -1,0 +1,100 @@
+digraph TrafficLightFSM {
+
+    graph [
+        rankdir=LR,
+        bgcolor="white",
+        label="Traffic Light Controller FSM",
+        labelloc="t",
+        fontsize=20,
+        fontname="Arial",
+        nodesep=0.8,
+        ranksep=1.0
+    ];
+
+    node [
+        shape=box,
+        style="rounded,filled",
+        fillcolor="lightgray",
+        fontname="Arial",
+        fontsize=11,
+        margin="0.15,0.10"
+    ];
+
+    edge [
+        fontname="Arial",
+        fontsize=10,
+        arrowsize=0.8
+    ];
+
+    NS_GREEN [
+        label="NS_GREEN\nState: 000\nNS: GREEN\nEW: RED\n10 cycles"
+    ];
+
+    NS_YELLOW [
+        label="NS_YELLOW\nState: 001\nNS: YELLOW\nEW: RED\n3 cycles"
+    ];
+
+    ALL_RED_1 [
+        label="ALL_RED_1\nState: 010\nNS: RED\nEW: RED\n2 cycles"
+    ];
+
+    EW_GREEN [
+        label="EW_GREEN\nState: 011\nNS: RED\nEW: GREEN\n10 cycles"
+    ];
+
+    EW_YELLOW [
+        label="EW_YELLOW\nState: 100\nNS: RED\nEW: YELLOW\n3 cycles"
+    ];
+
+    ALL_RED_2 [
+        label="ALL_RED_2\nState: 101\nNS: RED\nEW: RED\n2 cycles"
+    ];
+
+    NS_GREEN -> NS_GREEN [
+        label="timer_done = 0"
+    ];
+
+    NS_GREEN -> NS_YELLOW [
+        label="timer_done = 1"
+    ];
+
+    NS_YELLOW -> NS_YELLOW [
+        label="timer_done = 0"
+    ];
+
+    NS_YELLOW -> ALL_RED_1 [
+        label="timer_done = 1"
+    ];
+
+    ALL_RED_1 -> ALL_RED_1 [
+        label="timer_done = 0"
+    ];
+
+    ALL_RED_1 -> EW_GREEN [
+        label="timer_done = 1"
+    ];
+
+    EW_GREEN -> EW_GREEN [
+        label="timer_done = 0"
+    ];
+
+    EW_GREEN -> EW_YELLOW [
+        label="timer_done = 1"
+    ];
+
+    EW_YELLOW -> EW_YELLOW [
+        label="timer_done = 0"
+    ];
+
+    EW_YELLOW -> ALL_RED_2 [
+        label="timer_done = 1"
+    ];
+
+    ALL_RED_2 -> ALL_RED_2 [
+        label="timer_done = 0"
+    ];
+
+    ALL_RED_2 -> NS_GREEN [
+        label="timer_done = 1"
+    ];
+}
