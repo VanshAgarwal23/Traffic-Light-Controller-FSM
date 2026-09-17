@@ -1,0 +1,31 @@
+[*]
+[*] GTKWave Analyzer v3.3.116 (w)1999-2023 BSI
+[*] Thu Sep 17 12:57:08 2026
+[*]
+[dumpfile] "/home/vansh/Traffic-Light-Controller-FSM/sim/traffic_light_controller.vcd"
+[dumpfile_mtime] "Thu Sep 17 12:32:31 2026"
+[dumpfile_size] 9518
+[savefile] "/home/vansh/Traffic-Light-Controller-FSM/sim/traffic_light_controller.gtkw"
+[timestart] 0
+[size] 1854 843
+[pos] -27 -24
+*-17.609642 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] traffic_light_controller_tb.
+[sst_width] 278
+[signals_width] 174
+[sst_expanded] 1
+[sst_vpaned_height] 241
+@28
+traffic_light_controller_tb.clk
+traffic_light_controller_tb.reset
+traffic_light_controller_tb.current_state[2:0]
+traffic_light_controller_tb.timer_done
+traffic_light_controller_tb.NS_RED
+traffic_light_controller_tb.NS_YELLOW
+traffic_light_controller_tb.NS_GREEN
+traffic_light_controller_tb.EW_RED
+traffic_light_controller_tb.EW_YELLOW
+@29
+traffic_light_controller_tb.EW_GREEN
+[pattern_trace] 1
+[pattern_trace] 0
