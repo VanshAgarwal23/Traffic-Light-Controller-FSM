@@ -1,0 +1,152 @@
+TRAFFIC LIGHT CONTROLLER USING FSM
+TIMING ANALYSIS REPORT
+======================
+
+1. CLOCK CONFIGURATION
+----------------------
+Clock period        : 10 ns
+Clock frequency     : 100 MHz
+
+The waveform was analyzed using the GTKWave-generated simulation
+waveform file:
+
+sim/traffic_light_controller.vcd
+
+
+2. FSM TIMING SEQUENCE
+----------------------
+
+The traffic light controller follows the sequence:
+
+NS GREEN
+   ↓
+NS YELLOW
+   ↓
+ALL RED 1
+   ↓
+EW GREEN
+   ↓
+EW YELLOW
+   ↓
+ALL RED 2
+   ↓
+NS GREEN
+
+
+3. WAVEFORM-MEASURED TIMING
+----------------------------
+
+State          Start Time    End Time     Duration
+---------------------------------------------------
+NS GREEN          0 ns        100 ns        100 ns
+NS YELLOW       100 ns        130 ns         30 ns
+ALL RED 1       130 ns        150 ns         20 ns
+EW GREEN        150 ns        250 ns        100 ns
+EW YELLOW       250 ns        280 ns         30 ns
+ALL RED 2       280 ns        300 ns         20 ns
+
+The same timing pattern is repeated in subsequent FSM cycles.
+
+
+4. CLOCK-CYCLE ANALYSIS
+-----------------------
+
+Since the clock period is 10 ns:
+
+NS GREEN:
+10 clock cycles × 10 ns = 100 ns
+
+NS YELLOW:
+3 clock cycles × 10 ns = 30 ns
+
+ALL RED:
+2 clock cycles × 10 ns = 20 ns
+
+EW GREEN:
+10 clock cycles × 10 ns = 100 ns
+
+EW YELLOW:
+3 clock cycles × 10 ns = 30 ns
+
+ALL RED:
+2 clock cycles × 10 ns = 20 ns
+
+
+5. COMPLETE FSM CYCLE
+---------------------
+
+Total cycle duration:
+
+100 ns + 30 ns + 20 ns + 100 ns + 30 ns + 20 ns
+
+= 300 ns
+
+Therefore, one complete traffic-light sequence takes
+approximately 300 ns.
+
+
+6. WAVEFORM OBSERVATIONS
+------------------------
+
+The GTKWave waveform confirms the following:
+
+1. NS GREEN is active while EW RED is active.
+2. NS GREEN changes to NS YELLOW after 100 ns.
+3. An ALL-RED interval of approximately 20 ns occurs before
+   the EW direction receives a green signal.
+4. EW GREEN remains active for approximately 100 ns.
+5. EW GREEN changes to EW YELLOW for approximately 30 ns.
+6. A second ALL-RED interval of approximately 20 ns occurs.
+7. The controller then returns to NS GREEN.
+8. The complete sequence repeats periodically.
+9. NS GREEN and EW GREEN are never active simultaneously.
+10. The clock waveform has a 10 ns period throughout the simulation.
+
+
+7. SAFETY VERIFICATION
+----------------------
+
+The waveform demonstrates mutually exclusive green signals:
+
+NS_GREEN = 1 → EW_GREEN = 0
+EW_GREEN = 1 → NS_GREEN = 0
+
+The ALL-RED states provide an intermediate safety interval
+between changes in traffic direction.
+
+No simultaneous NS_GREEN and EW_GREEN condition is observed
+in the analyzed waveform.
+
+
+8. RESET OBSERVATION
+--------------------
+
+The waveform includes the reset signal and demonstrates the
+controller's reset operation during simulation.
+
+When reset is asserted, the FSM is returned to its initial
+NS GREEN state according to the RTL reset implementation.
+
+
+9. CONCLUSION
+-------------
+
+GTKWave waveform analysis confirms that the Traffic Light
+Controller FSM follows the intended six-state timing sequence.
+
+Measured state durations agree with the configured timer values:
+
+NS GREEN    = 100 ns
+NS YELLOW   =  30 ns
+ALL RED 1   =  20 ns
+EW GREEN    = 100 ns
+EW YELLOW   =  30 ns
+ALL RED 2   =  20 ns
+
+The complete FSM cycle is approximately 300 ns.
+
+The waveform also confirms mutually exclusive green signals
+and the presence of safety intervals between traffic directions.
+
+Therefore, the simulated timing behavior is consistent with
+the designed FSM and timer architecture.
