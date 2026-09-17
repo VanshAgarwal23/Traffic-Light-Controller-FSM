@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module traffic_light_controller #(
     parameter [7:0] NS_GREEN_TIME   = 8'd10,
     parameter [7:0] NS_YELLOW_TIME  = 8'd3,

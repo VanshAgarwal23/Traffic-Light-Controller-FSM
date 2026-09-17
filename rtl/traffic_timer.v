@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module traffic_timer #(
     parameter WIDTH = 8
 )(

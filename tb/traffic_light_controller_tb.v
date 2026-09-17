@@ -307,6 +307,8 @@ module traffic_light_controller_tb;
     // ============================================================
 
     initial begin
+        $dumpfile("sim/traffic_light_controller.vcd");
+        $dumpvars(0, traffic_light_controller_tb);
 
         total_tests  = 0;
         passed_tests = 0;
