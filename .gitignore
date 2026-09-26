@@ -1,5 +1,5 @@
 # Simulation generated files
-sim/*.vcd
+
 sim/*.fst
 sim/verilator/*
 obj_dir/
